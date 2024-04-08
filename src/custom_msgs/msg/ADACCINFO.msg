@@ -1,0 +1,6 @@
+uint8 trz_acc_alivecnt
+uint8 trz_acc_chksum
+uint8 trz_acc_ctrlmode_info
+uint8 trz_acc_cmd_pos_info
+uint8 trz_acc_takeover_info
+uint16 trz_acc_status_info

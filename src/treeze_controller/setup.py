@@ -20,7 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'avante_treeze_controller = treeze_controller.controller:main'
+            'avante_treeze_controller = treeze_controller.controller:main',
+            'treeze_can_interface = treeze_controller.treeze_can_interface:main'
         ],
     },
 )

@@ -25,7 +25,12 @@ class CANPublisher(Node):
 
     
         self.ch = canlib.openChannel(channel=0)
+        # 수신 속도 설졍 (500 kbit/s)
         self.ch.setBusParams(canlib.canBITRATE_500K)
+        # 수신 필터 설정 (모든 메시지 수신)
+        self.ch.setBusOutputControl(canlib.canDRIVER_NORMAL)
+        # 수신 대기 시간 설정 (100ms)
+        
         self.ch.busOn()       
 
         # Timer callback Setting
@@ -106,21 +111,33 @@ class CANPublisher(Node):
         self.ad_acc_pub.publish(pub_msg)
 
     def timer_callback(self):
-        
-        # while True:
-        #     message = self.can_bus.recv() 
-        #     if message.arbitration_id == 0x600:
-        #         self.publish_ad_brkmot_cmd(message)
-        #     elif message.arbitration_id == 0x610:
-        #         self.publish_ad_acc_cmd(message)
-        while self.ch.read():
-            msgId, msg, dlf, flg, time = self.ch.read()
-            # if msgId == 0x600:
-            #     self.publish_ad_brkmot_cmd(msg)
-            # elif msgId == 0x610:
-            #     self.publish_ad_acc_cmd(msg)
-            frame = Frame(id_=600, data=[1,2])
-            print(frame)
+        try:
+            frame = self.ch.read(timeout=1000)
+            print(f"ID: {frame.id}")
+            print(f"Data: {frame.data}")
+            # while True:
+            #     msg = self.ch.read()
+            #     if msg:
+            #         print("Received message: ID={}, DLC={}, Data={}".format(msg.id, msg.dlc, msg.data))
+        except KeyboardInterrupt:
+            pass
+
+        finally:
+            self.ch.close()
+        # # while True:
+        # #     message = self.can_bus.recv() 
+        # #     if message.arbitration_id == 0x600:
+        # #         self.publish_ad_brkmot_cmd(message)
+        # #     elif message.arbitration_id == 0x610:
+        # #         self.publish_ad_acc_cmd(message)
+        # while self.ch.read():
+        #     msgId, msg, dlf, flg, time = self.ch.read()
+        #     # if msgId == 0x600:
+        #     #     self.publish_ad_brkmot_cmd(msg)
+        #     # elif msgId == 0x610:
+        #     #     self.publish_ad_acc_cmd(msg)
+        #     frame = Frame(id_=600, data=[1,2])
+        #     print(frame)
 
 def main(args=None):
     rclpy.init(args=args)

@@ -1,0 +1,66 @@
+VERSION ""
+
+
+NS_ :
+  CM_
+  BA_DEF_
+  BA_
+  VAL_
+  BA_DEF_DEF_
+  SIG_VALTYPE_
+
+BS_:
+
+BU_: Vector__XXX
+
+
+BO_ 768 AD_BRKMOT_CMD: 7 Vector__XXX
+SG_ AD_BRKMOT_AliveCnt : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ AD_BRKMOT_ChkSum : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ AD_BRKMOT_CtrlMode : 16|8@1+ (1,0) [0|1] "" Vector__XXX
+SG_ AD_BRKMOT_Cmd_Pos : 24|8@1+ (1,0) [0|100] "%" Vector__XXX
+SG_ AD_BRKMOT_Cmd_Vel : 32|16@1+ (1,0) [0|1023] "Deg/s" Vector__XXX
+SG_ AD_BRKMOT_TakeOver : 48|8@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 784 AD_ACC_CMD: 5 Vector__XXX
+SG_ AD_ACC_AliveCnt : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ AD_ACC_ChkSum : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ AD_ACC_CtrlMode : 16|8@1+ (1,0) [0|1] "" Vector__XXX
+SG_ AD_ACC_Cmd_Pos : 24|8@1+ (1,0) [0|100] "%" Vector__XXX
+SG_ AD_ACC_TakeOver : 32|8@1+ (1,0) [0|1] "" Vector__XXX
+
+BO_ 1536 AD_BRKMOT_INFO: 8 Vector__XXX
+SG_ TRZ_BRKMOT_AliveCnt : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ TRZ_BRKMOT_ChkSum : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ TRZ_BRKMOT_CtrlMode_Info : 16|8@1+ (1,0) [0|1] "" Vector__XXX
+SG_ TRZ_BRKMOT_Cmd_Pos_Info : 24|8@1+ (1,0) [0|100] "%" Vector__XXX
+SG_ TRZ_BRKMOT_Cmd_Vel_Info : 32|16@1+ (1,0) [0|1023] "Deg/s" Vector__XXX
+SG_ TRZ_BRKMOT_TakeOver_Info : 48|8@1+ (1,0) [0|1] "" Vector__XXX
+SG_ TRZ_BRKMOT_Status_Info : 56|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1552 AD_ACC_INFO: 7 Vector__XXX
+SG_ TRZ_ACC_AliveCnt : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ TRZ_ACC_ChkSum : 8|8@1+ (1,0) [0|255] "" Vector__XXX
+SG_ TRZ_ACC_CtrlMode_Info : 16|8@1+ (1,0) [0|1] "" Vector__XXX
+SG_ TRZ_ACC_Cmd_Pos_Info : 24|8@1+ (1,0) [0|100] "%" Vector__XXX
+SG_ TRZ_ACC_TakeOver_Info : 32|8@1+ (1,0) [0|1] "" Vector__XXX
+SG_ TRZ_ACC_Status_Info : 40|16@1+ (1,0) [0|65535] "" Vector__XXX
+
+BA_DEF_  "BusType" STRING ;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
+
+BA_DEF_DEF_  "BusType" "CAN";
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+
+BA_ "BusType" "CAN";
+
+BA_ "GenMsgCycleTime" BO_ 768 20;
+BA_ "GenMsgCycleTime" BO_ 784 20;
+BA_ "GenMsgCycleTime" BO_ 1536 20;
+BA_ "GenMsgCycleTime" BO_ 1552 20;
+VAL_ 768 AD_BRKMOT_CtrlMode 0 "Manual_Mode" 1 "Auto_Mode";
+VAL_ 784 AD_ACC_CtrlMode 0 "Manual_Mode" 1 "Auto_Mode";
+VAL_ 1536 TRZ_BRKMOT_CtrlMode_Info 0 "Manual_Mode" 1 "Auto_Mode";
+VAL_ 1536 TRZ_BRKMOT_Status_Info 1 "Generic_Error" 2 "Current_Error" 4 "Voltage_Error" 8 "Temperature_Error" 16 "Communication_Error" 32 "Device_Protocol_Error" 64 "Reserved" 128 "Leadshine_Specific_Error";
+VAL_ 1552 TRZ_ACC_CtrlMode_Info 0 "Manual_Mode" 1 "Auto_Mode";
+VAL_ 1552 TRZ_ACC_Status_Info 1 "CAN_Receive_Fail" 2 "Value_Error" 4 "Range_Error" 8 "Reserved_1" 16 "Master_Relay_Error" 32 "Master_DAC_Error" 64 "Master_ADC_Error" 128 "Reserved_2" 256 "Slave_Relay_Error" 512 "Slave_DAC_Error" 1024 "Slave_ADC_Error" 2048 "Reserved_3" 4096 "Pedal_Ratio_Error" 8192 "Master_HW_Check" 16384 "Slave_HW_Check" 32768 "Reserved_4";

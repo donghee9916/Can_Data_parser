@@ -1,0 +1,7 @@
+uint8 trz_brkmot_alivecnt
+uint8 trz_brkmot_chksum
+uint8 trz_brkmot_ctrlmode_info
+uint8 trz_brkmot_cmd_pos_info
+uint16 trz_brkmot_cmd_vel_info
+uint8 trz_brkmot_takeover_info
+uint8 trz_brkmot_status_info

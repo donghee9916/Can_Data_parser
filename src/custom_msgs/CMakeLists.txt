@@ -24,10 +24,10 @@ find_package(visualization_msgs REQUIRED)
 
 
 set(msg_files
-  "msg/AdAccCmd.msg"
-  "msg/AdBrkmotCmd.msg"
-  "msg/AdAccInfo.msg"
-  "msg/AdBrkmotInfo.msg"
+  "msg/ADACCCMD.msg"
+  "msg/ADBRKMOTCMD.msg"
+  "msg/ADACCINFO.msg"
+  "msg/ADBRKMOTINFO.msg"
 )
 
 set(srv_files

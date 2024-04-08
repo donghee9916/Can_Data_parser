@@ -1,6 +1,0 @@
-uint8 adbrkmotalivecnt
-uint8 adbrkmotchksum
-uint8 adbrkmotctrlmode
-uint8 adbrkmotcmdpos
-uint16 adbrkmotcmdvel
-uint8 adbrkmottakeover

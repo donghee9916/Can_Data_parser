@@ -1,0 +1,6 @@
+uint8 ad_brkmot_alivecnt
+uint8 ad_brkmot_chksum
+uint8 ad_brkmot_ctrlmode
+uint8 ad_brkmot_cmd_pos
+uint16 ad_brkmot_cmd_vel
+uint8 ad_brkmot_takeover
