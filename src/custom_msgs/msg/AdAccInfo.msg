@@ -1,0 +1,6 @@
+uint8 trzaccalivecnt
+uint8 trzaccchksum
+uint8 trzaccctrlmodeinfo
+uint8 trzacccmdposinfo
+uint8 trzacctakeoverinfo
+uint16 trzaccstatusinfo

@@ -1,0 +1,7 @@
+uint8 trzbrkmotalivecnt
+uint8 trzbrkmotchksum
+uint8 trzbrkmotctrlmodeinfo
+uint8 trzbrkmotcmdposinfo
+uint16 trzbrkmotcmdvelinfo
+uint8 trzbrkmottakeoverinfo
+uint8 trzbrkmotstatusinfo
