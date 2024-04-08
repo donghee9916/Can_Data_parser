@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'can_data_parser'
+package_name = 'treeze_controller'
 
 setup(
     name=package_name,
@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'avante_treeze_controller = can_data_parser.controller:main'
+            'avante_treeze_controller = treeze_controller.controller:main'
         ],
     },
 )

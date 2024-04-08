@@ -4,7 +4,9 @@ import rclpy
 from rclpy.node import Node
 import can
 from custom_msgs.msg import AdAccCmd, AdBrkmotCmd, AdAccInfo, AdBrkmotInfo
-
+import canlib
+from canlib import canlib, Frame
+from canlib.canlib import ChannelData
 
 class CANPublisher(Node):
     def __init__(self):
@@ -19,7 +21,12 @@ class CANPublisher(Node):
         self.ad_acc_pub = self.create_publisher(AdAccInfo, 'ad_acc_info', 10)
 
         # Initialize CAN bus
-        self.can_bus = can.interface.Bus(bustype='socketcan', channel='can0', bitrate=500000)
+        # self.can_bus = can.interface.Bus(bustype='kvaser', channel=0, bitrate=500000)
+
+    
+        self.ch = canlib.openChannel(channel=0)
+        self.ch.setBusParams(canlib.canBITRATE_500K)
+        self.ch.busOn()       
 
         # Timer callback Setting
         timer_period = 0.01 # seconds, 10ms
@@ -45,9 +52,11 @@ class CANPublisher(Node):
         can_msg_data.extend(ad_brkmot_takeover.to_bytes(1, byteorder='big'))  # 8비트 데이터
 
         # CAN 메시지 전송
-        can_msg = can.Message(arbitration_id=0x300, data=can_msg_data)
-        self.can_bus.send(can_msg)
-    
+        # can_msg = can.Message(arbitration_id=0x300, data=can_msg_data)
+        # self.can_bus.send(can_msg)
+        self.ch.write(0x300, can_msg_data)
+
+
     # Callback function for receiving AD_ACC_INFO message from CAN bus
     def ad_acc_callback(self, msg):
         # AD_ACC_CMD 메시지로부터 데이터 추출
@@ -68,8 +77,10 @@ class CANPublisher(Node):
         can_msg_data.extend(ad_acc_takeover.to_bytes(1, byteorder='big'))  # 8비트 데이터
 
         # CAN 메시지 전송
-        can_msg = can.Message(arbitration_id=0x310, data=can_msg_data)  # arbitration_id 수정 필요
-        self.can_bus.send(can_msg)
+        # can_msg = can.Message(arbitration_id=0x310, data=can_msg_data)  # arbitration_id 수정 필요
+        # self.can_bus.send(can_msg)
+        self.ch.write(0x310, can_msg_data)
+
 
     # Publish AD_BRKMOT_CMD message to CAN bus
     def publish_ad_brkmot_cmd(self, msg):
@@ -88,20 +99,28 @@ class CANPublisher(Node):
         pub_msg = AdAccInfo()
         pub_msg.trzaccalivecnt = msg.data[0]
         pub_msg.trzaccchksum = msg.data[1]
-        pub_msg.trzaccctrl_modinfo = msg.data[2]
-        pub_msg.trzacccmdpos_info = msg.data[3]
+        pub_msg.trzaccctrlmodeinfo = msg.data[2]
+        pub_msg.trzacccmdposinfo = msg.data[3]
         pub_msg.trzacctakeoverinfo = msg.data[4]
         pub_msg.trzaccstatusinfo = (msg.data[5] << 8) | msg.data[6]
         self.ad_acc_pub.publish(pub_msg)
 
     def timer_callback(self):
-        while True:
-            message = self.can_bus.recv() 
-            if message.arbitration_id == 0x600:
-                self.publish_ad_brkmot_cmd(message)
-            elif message.arbitration_id == 0x610:
-                self.publish_ad_acc_cmd(message)
-
+        
+        # while True:
+        #     message = self.can_bus.recv() 
+        #     if message.arbitration_id == 0x600:
+        #         self.publish_ad_brkmot_cmd(message)
+        #     elif message.arbitration_id == 0x610:
+        #         self.publish_ad_acc_cmd(message)
+        while self.ch.read():
+            msgId, msg, dlf, flg, time = self.ch.read()
+            # if msgId == 0x600:
+            #     self.publish_ad_brkmot_cmd(msg)
+            # elif msgId == 0x610:
+            #     self.publish_ad_acc_cmd(msg)
+            frame = Frame(id_=600, data=[1,2])
+            print(frame)
 
 def main(args=None):
     rclpy.init(args=args)
